@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Loja Rails</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= nav_bar brand: "Loja Rails", brand_link: root_url do %>
+      <%= menu_group do %>
+        <%= menu_item "Novo Produto", new_produto_path %>
+      <% end %>
+        <%= form_tag busca_produtos_path, method: :get, class:"navbar-form navbar-right" do %> 
+        <!-- Um form por padrão tem o method post, tem que ser especificado
+        que nesse caso é um método get -->
+          <div class="form-group">
+            <%= text_field_tag :search, params[:search], class:"form-control" %>
+            <%= button_to "Buscar", nil, class:"btn btn-default" %>
+          </div>
+        <% end %>
+    <% end %>
+      <div class="container">
+        <% if flash[:errors].present? %>
+          <div class="alert alert-danger" role="alert">
+            <ul class="list-unstyled">
+              <% flash[:errors].each do |error| %>
+                <li><h4 class="alert-heading"><%= error %></h4></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <%= yield %>
+      </div>
+  </body>
+</html>
